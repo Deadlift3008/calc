@@ -1,6 +1,8 @@
 import React,{Component} from 'React';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import PropTypes from 'prop-types';
+import Snackbar from 'material-ui/Snackbar';
 
 const styles = {
     container:{
@@ -31,11 +33,13 @@ export default class Add extends Component{
             product: "",
             price: "",
             errorProductField: "",
-            errorPriceField: ""
+            errorPriceField: "",
+            snackbar_open: false
         };
 
         this.setValue = this.setValue.bind(this);
         this.addItem = this.addItem.bind(this);
+        this.handleRequestClose = this.handleRequestClose.bind(this);
     }
     setValue(type,e,value){
         // Пропускаем только цифры
@@ -67,8 +71,12 @@ export default class Add extends Component{
             product: "",
             price: "",
             errorProductField: "",
-            errorPriceField: ""
+            errorPriceField: "",
+            snackbar_open: true
         });
+    }
+    handleRequestClose(){
+        this.setState({snackbar_open: false});
     }
     render(){
         return  <div className="add" style={styles.container}>
@@ -92,6 +100,16 @@ export default class Add extends Component{
                         errorStyle={styles.errorPrice}
                     />
                     <RaisedButton label="Добавить" primary={true} onTouchTap={this.addItem}/>
+                    <Snackbar
+                        open={this.state.snackbar_open}
+                        message="Продукт добавлен в корзину"
+                        autoHideDuration={2200}
+                        onRequestClose={this.handleRequestClose}
+                    />
                 </div>
     }
 }
+
+Add.propTypes = {
+    addItem: PropTypes.func.isRequired
+};

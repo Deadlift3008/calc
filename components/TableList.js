@@ -9,6 +9,9 @@ import {
 } from 'material-ui/Table';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import Snackbar from 'material-ui/Snackbar';
+import PropTypes from 'prop-types';
+
 
 const styles = {
     container: {
@@ -39,12 +42,14 @@ export default class TableList extends Component{
             discount: 7,
             list: [],
             error: "",
-            sum: 0
+            sum: 0,
+            snackbar_open: false
         };
 
         this.setSecondPrices = this.setSecondPrices.bind(this);
         this.setDiscount = this.setDiscount.bind(this);
         this.applyDiscount = this.applyDiscount.bind(this);
+        this.handleRequestClose = this.handleRequestClose.bind(this);
     }
     setSecondPrices(list,sum){
         // копируем полностью объект
@@ -105,7 +110,10 @@ export default class TableList extends Component{
         }
         // пересчитываем новые значения
         let newList = this.setSecondPrices(list,sum);
-        this.setState({list: newList, error: ""});
+        this.setState({list: newList, error: "",snackbar_open: true});
+    }
+    handleRequestClose(){
+        this.setState({snackbar_open: false});
     }
     render(){
         let list = this.state.list.map(function(item,i,arr){
@@ -142,6 +150,18 @@ export default class TableList extends Component{
                     />
                     <span>рублей</span>
                     <RaisedButton label="Применить" primary={true} style={styles.button} onTouchTap={this.applyDiscount}/>
+                    <Snackbar
+                        open={this.state.snackbar_open}
+                        message="Скидка применена"
+                        autoHideDuration={2200}
+                        onRequestClose={this.handleRequestClose}
+                    />
                 </div>
     }
 }
+
+
+TableList.propTypes = {
+    list: PropTypes.array.isRequired,
+    sum: PropTypes.number.isRequired
+};
