@@ -1,6 +1,4 @@
 const gulp = require('gulp'),
-    sass = require('gulp-sass'),
-    babel = require('gulp-babel'),
     babelify = require('babelify'),
     browserify = require('browserify'),
     buffer = require('vinyl-buffer'),
@@ -8,7 +6,7 @@ const gulp = require('gulp'),
 
 
 gulp.task("js",function(){
-    return browserify('./index.js')
+    return browserify('index.js')
     .transform('babelify', {
         presets: ['es2015', 'react'],
         plugins: ['transform-object-rest-spread']
