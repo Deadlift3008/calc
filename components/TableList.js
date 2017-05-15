@@ -104,6 +104,12 @@ export default class TableList extends Component{
     applyDiscount(){
         let {sum,list,discount} = this.state;
         // Пропускаем только целые числа
+        discount = discount.toString();
+
+        if(list.length == 0 || sum == 0){
+            return;
+        }
+
         if(!discount.match(/\d+/) || discount.match(/\d+/)[0] !== discount){
             this.setState({error: "Только целые числа"});
             return;
