@@ -20,15 +20,18 @@ export default class App extends Component{
     constructor(props){
         super(props);
         this.state = {
-            list: []
+            list: [],
+            sum: 0
         };
 
         this.addItem = this.addItem.bind(this);
     }
     addItem(item){
         let currentList = this.state.list;
+        // сразу будем считать сумму, чтобы не делать потом лишнего цикла
+        let sum = this.state.sum;
         currentList.push(item);
-        this.setState({list: currentList});
+        this.setState({list: currentList, sum: sum+parseInt(item.price)});
     }
     render(){
         return <MuiThemeProvider>
@@ -36,7 +39,7 @@ export default class App extends Component{
                     <Paper style={styles} zDepth={2}>
                         <Add addItem={this.addItem} />
                         <Divider />
-                        <TableList list={this.state.list} />
+                        <TableList list={this.state.list} sum={this.state.sum}/>
                     </Paper>
                 </div>
                </MuiThemeProvider>
