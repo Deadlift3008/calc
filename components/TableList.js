@@ -79,7 +79,7 @@ export default class TableList extends Component{
         });
 
         // даем остаток элементу с максимальной ценой
-        list[maxIndex].secondPrice-=remainder;
+        list[maxIndex].secondPrice-=Math.round(remainder);
         if(list[maxIndex].secondPrice < 0){
             list[maxIndex].secondPrice = 0;
         }
